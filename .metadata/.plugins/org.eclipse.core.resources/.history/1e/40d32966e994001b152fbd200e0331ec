@@ -1,0 +1,8 @@
+package selflearn;
+
+public class Sample0501 {
+
+	public static void main(String[] args) {
+	double x=Math.sqrt(2.0);
+	System.out.println(x);
+}

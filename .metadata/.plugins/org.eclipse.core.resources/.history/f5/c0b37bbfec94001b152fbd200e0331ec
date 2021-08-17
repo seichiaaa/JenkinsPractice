@@ -1,0 +1,15 @@
+package selflearn;
+
+public class Sample0501 {
+
+	public static void main(String[] args) {
+	double x=Math.sqrt(2.0);
+	System.out.println(x);
+	
+	double d=Math.pow(3, 4);
+	double s=Math.random();
+	System.out.println(d);
+	System.out.println(s);
+}
+	
+}

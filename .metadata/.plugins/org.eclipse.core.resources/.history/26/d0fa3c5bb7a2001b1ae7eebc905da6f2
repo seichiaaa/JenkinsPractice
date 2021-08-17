@@ -1,0 +1,257 @@
+package kensyuKadai;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class Janken10 {
+
+	public static void main(String[] args) {
+
+		System.out.println("プレイヤー名を入力してください。");
+		Scanner sc = new Scanner(System.in);
+		String name = sc.nextLine();
+		while(name.isEmpty() || name.length() >= 11) {
+			System.out.println("プレイヤー名は「1~10桁」で入力してください。");
+			name = sc.nextLine();
+		}
+		/* 1.プレイヤー名入力 */
+		String yn = null;
+		do {
+
+			System.out.println("勝負回数を入力してください。(1~20)");
+			int battle = sc.nextInt();
+			while(battle <= 0 || battle > 20) {
+				System.out.println("勝負回数は1~20回です。");
+				battle = sc.nextInt();
+			}
+			/* 2.勝負回数を入力 */
+
+			ArrayList<String> result = new ArrayList<String>();
+			ArrayList<String> handLog = new ArrayList<String>();
+			ArrayList<String> comHandLog = new ArrayList<String>();
+			Random rand = new Random();
+			int hand;
+			int comHand;
+			int win = 0, lose = 0, draw = 0;
+
+			for(int i = 0; i < battle; i++) {
+				System.out.println("じゃんけんの手を入力してください(1:グー、2:チョキ、3:パー)");
+				hand = sc.nextInt();
+				while(hand < 1 || hand > 3) {
+					System.out.println("じゃんけんの手は1，2，3のいずれかを入力して下さい");
+					hand = sc.nextInt();
+				}
+				comHand = (rand.nextInt(2) + 1);
+				/* じゃんけんの手を入力 */
+
+				switch (jResult(hand, comHand)) {
+				case "あなたの勝ち":
+					win++;
+					break;
+				case "あなたの負け":
+					lose++;
+					break;
+				case "あいこ":
+					draw++;
+				}
+				handLog.add(jHand(hand));
+				comHandLog.add(jHand(comHand));
+				result.add(jResult(hand, comHand));
+				System.out.println("結果:" + jResult(hand, comHand) + "\t" + name + ":" + jHand(hand) + "\t相手:" + jHand(comHand));
+			}
+			/* じゃんけん処理 */
+
+			String resultAll = null;
+			if(result.stream().allMatch(s -> s.equals("あなたの勝ち"))) {
+				resultAll = "全勝";
+			} else if(result.stream().allMatch(s -> s.equals("あなたの負け"))) {
+				resultAll = "全敗";
+			} else if(result.stream().anyMatch(s -> s.equals("あいこ"))) {
+				resultAll = win + "勝" + lose + "敗" + draw + "引分";
+			} else {
+				resultAll = win + "勝" + lose + "敗";
+			}
+
+			System.out.println("ファイルを出力しますか?(y/n)");
+			Scanner ynsc = new Scanner(System.in);
+			yn = ynsc.nextLine();
+			boolean yesNo = true;
+			switch (yn) {
+			case "y":
+				yesNo = false;
+				break;
+			case "n":
+				yesNo = false;
+				break;
+			}
+			while(yesNo == true || yn.isEmpty()) {
+				System.out.println("入力値が誤っています。");
+				yn = ynsc.nextLine();
+				switch (yn) {
+				case "y":
+					yesNo = false;
+					break;
+				case "n":
+					yesNo = false;
+					break;
+				}
+			}
+
+			Calendar calendar = Calendar.getInstance();
+			String today = String.valueOf(calendar.get(Calendar.YEAR)) + String.valueOf(calendar.get(Calendar.MONTH)) + String.valueOf(calendar.get(Calendar.DATE));
+
+			if(yn.equals("y")) {
+				File file = new File("c:/test/" + name + "_" + today + ".txt");
+				try(
+						FileWriter fw = new FileWriter(file, false);
+						BufferedWriter bw = new BufferedWriter(fw);
+						FileReader fr = new FileReader(file);
+						BufferedReader br = new BufferedReader(fr);) {
+					bw.write("┏━━━━┳━━━━┳━━━━┳━━━━━━━┓");
+					bw.newLine();
+					bw.write("┃回数　　┃" + fillName(name) + "┃相手　　┃結果　　　　　┃");
+					bw.newLine();
+					bw.write("┣━━━━╋━━━━╋━━━━╋━━━━━━━┫");
+					bw.newLine();
+
+					for(int i = 0; i < battle; i++) {
+						bw.write("┃" + fillSpaceInt(String.valueOf(i + 1), 8) + "┃" + fillSpace(handLog.get(i), name) + "┃" + fillSpaceInt(comHandLog.get(i), 8) + "┃" + fillSpaceInt(result.get(i), 14)
+								+ "┃");
+						bw.newLine();
+
+					}
+					bw.write("┗━━━━┻━━━━┻━━━━┻━━━━━━━┛");
+					bw.newLine();
+					bw.write("結果" + resultAll);
+					bw.flush();
+
+					String str = null;
+					while((str = br.readLine()) != null) {
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				System.out.println("ファイル出力が完了しました。[ファイル名:" + file + "]");
+			}
+
+			/* 結果出力 */
+
+			System.out.println("再チャレンジを行いますか？(y/n)");
+			yn = ynsc.nextLine();
+			yesNo = true;
+			switch (yn) {
+			case "y":
+				yesNo = false;
+				break;
+			case "n":
+				yesNo = false;
+				break;
+			}
+			while(yesNo == true || yn.isEmpty()) {
+				System.out.println("入力値が誤っています。");
+				yn = ynsc.nextLine();
+				switch (yn) {
+				case "y":
+					yesNo = false;
+					break;
+				case "n":
+					yesNo = false;
+					break;
+				}
+			}
+		} while(yn.equals("y"));
+		/* コンテニュー確認 */
+
+		System.out.println("おつかれさまでした。またの機会をお待ちしてます。");
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				System.exit(0);
+			}
+		};
+
+		Timer timer = new Timer();
+		timer.schedule(task, 5000);
+	}
+
+	public static String jHand(int i) {
+		String hand = null;
+		switch (i) {
+		case 1:
+			hand = "グー";
+			break;
+		case 2:
+			hand = "チョキ";
+			break;
+		case 3:
+			hand = "パー";
+			break;
+		}
+		return hand;
+	}
+
+	public static String jResult(int p, int c) {
+		String result = null;
+		switch (p - c) {
+		case 0:
+			return result = "あいこ";
+		case -1:
+		case 2:
+			return result = "あなたの勝ち";
+		default:
+			return result = "あなたの負け";
+		}
+	}
+
+	public static String padRight(String str, int len) {
+		String fm = "%" + String.valueOf(-len) + "s";
+		return String.format(fm, str);
+	}
+
+	public static String fillSpace(String str, String str2) {
+		int len = getBytesLength(str);
+		int len2 = getBytesLength(str2);
+		if(len2 < 8)
+			len2 = 8;
+		for(int i = 0; i < (len2 - len); i++) {
+			str = str + " ";
+		}
+		return str;
+	}
+
+	public static String fillName(String str) {
+		int len = getBytesLength(str);
+		if(len < 8) {
+			for(int i = 0; i < (8 - len); i++) {
+				str = str + " ";
+			}
+		}
+		return str;
+	}
+
+	public static String fillSpaceInt(String str, int num) {
+		int len = getBytesLength(str);
+		for(int i = 0; i < (num - len); i++) {
+			str = str + " ";
+		}
+		return str;
+	}
+
+	public static int getBytesLength(String str) {
+		try {
+			return str.getBytes("Shift_JIS").length;
+		} catch (Exception ex) {
+			return Integer.MAX_VALUE;
+		}
+	}
+}

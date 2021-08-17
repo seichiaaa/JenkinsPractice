@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<runner version="1.0.0">
+    <category expanded="true" name="カテゴリーなし">
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Exec"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Hello"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Hello (1)"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Janken10"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="List_Furuchi"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Map1_Furuchi"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Pass01"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Prectice"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Rocalexplain"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Sample0306"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Sample0501"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Sample0503"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Sample0505"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="ScopeStrict"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="StringFormat"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="TRY"/>
+        <launchConfiguration bookmark="false" defaultLaunchMode="run" name="Zyanken"/>
+    </category>
+</runner>

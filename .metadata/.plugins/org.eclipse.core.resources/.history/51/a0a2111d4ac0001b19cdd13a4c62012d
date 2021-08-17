@@ -1,0 +1,12 @@
+package practice;
+
+public class Prectice {
+
+	public static void main(String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+		
+		String[] a1s = new String[1];
+		System.out.println(a1s[0]);
+	}
+
+}
